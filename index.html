@@ -13,19 +13,38 @@
     </div>
 
     <script type="text/babel">
-        var FirstComponent = React.createClass({
-            render: function(){
+        var NameStateComponent = React.createClass({
+            nameChanged: function(event)
+            {
+                this.setState({
+                    name: event.target.value
+                })
+            },
+            resetName: function()
+            {
+                this.setState({
+                    name: ""
+                })
+            },
+            getInitialState: function()
+            {
+                return {
+                    name: ''
+                }
+            },
+            render: function()
+            {
                 return (
                         <div>
-                        <h1>This is our first component</h1>
-                        <h2>Another component</h2>
+                              <input type='text' onChange={this.nameChanged}/>
+                                <h1>Hello, I am {this.state.name} </h1>
+                <button onClick={this.resetName}>Reset name </button>
                         </div>
                 )
-
             }
         });
         ReactDOM.render(
-                <FirstComponent />,
+                <NameStateComponent />,
                 document.getElementById('app')
         );
     </script>
