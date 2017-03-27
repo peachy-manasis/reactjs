@@ -13,19 +13,45 @@
     </div>
 
     <script type="text/babel">
-        var FirstComponent = React.createClass({
-            render: function(){
-                return (
+        var CounterComponent = React.createClass({
+            addOne: function(event)
+            {
+                this.setState({
+                    counter: this.state.counter + 1
+                })
+            },
+            addFive: function(event)
+            {
+                this.setState({
+                    counter: this.state.counter + 5
+                })
+            },
+            addTen: function(event)
+            {
+                this.setState({
+                    counter: this.state.counter + 10
+                })
+            },
+            getInitialState: function()
+            {
+                return {
+                    counter: 0
+                }
+            },
+            render: function()
+                {
+                    return (
                         <div>
-                        <h1>This is our first component</h1>
-                        <h2>Another component</h2>
+                            <h2>Count: {this.state.counter}</h2>
+                            <button onClick={this.addOne}>Add 1</button>
+                            <button onClick={this.addFive}>Add 5</button>
+                            <button onClick={this.addTen}>Add 10</button>
                         </div>
-                )
-
-            }
-        });
+                    )
+                }
+            });
         ReactDOM.render(
-                <FirstComponent />,
+                <CounterComponent />,
                 document.getElementById('app')
         );
     </script>
