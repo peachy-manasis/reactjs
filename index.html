@@ -8,24 +8,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.20/browser.min.js"></script>
 </head>
 <body>
-    <div id="app">
-
-    </div>
+    <div id="app"></div>
 
     <script type="text/babel">
-        var FirstComponent = React.createClass({
-            render: function(){
-                return (
-                        <div>
-                        <h1>This is our first component</h1>
-                        <h2>Another component</h2>
-                        </div>
+       var TaskList = React.createClass({
+           getInitialState: function()
+           {
+               return {
+                   tasks: [
+                       {title: "Clean Dishes", id: 1},
+                       {title: "Sweep Floors", id: 2},
+                       {title: "Feed Sammy and Lucy", id: 3}
+                   ]
+               }
+           },
+           render: function()
+           {
+               return (
+                   <ul>
+                       {this.state.tasks.map(function(task){
+                           return <Task title={task.title} key={task.id}/>
+                       })}
+                   </ul>
                 )
+           }
+       });
 
-            }
-        });
+       /*
+        * Note: use stateless functions as much as possible!
+        */
+       var Task = function(props)
+       {
+           return (
+                   <li>Task: {props.title}</li>
+           )
+       };
+
         ReactDOM.render(
-                <FirstComponent />,
+                <TaskList />,
                 document.getElementById('app')
         );
     </script>
