@@ -13,19 +13,45 @@
     </div>
 
     <script type="text/babel">
-        var FirstComponent = React.createClass({
+        var LifecycleComponent = React.createClass({
+            getDefaultProps: function()
+            {
+                console.log("1: getDefaultProps");
+            },
+            getInitialState: function()
+            {
+                console.log("2: getInitialState:");
+                return({
+                    count: 0
+                })
+            },
+            componentWillMount: function()
+            {
+                console.log("3: componentWillMount: before component is rendered, has access to props and state, but not dom");
+            },
+            increment: function()
+            {
+                this.setState({
+                    count: this.state.count + 1
+                })
+            },
             render: function(){
+                console.log('4: render - will execute everytime refreshed.')
                 return (
-                        <div>
-                        <h1>This is our first component</h1>
-                        <h2>Another component</h2>
-                        </div>
+                        <button onClick={this.increment}>{this.state.count}</button>
                 )
-
+            },
+            componentDidMount: function()
+            {
+                console.log("5: componentDidMount: component has rendered!");
+                console.log(this.state);
+                console.log(this.props);
+                console.log(ReactDOM.findDOMNode(this));
             }
         });
+
         ReactDOM.render(
-                <FirstComponent />,
+                <LifecycleComponent />,
                 document.getElementById('app')
         );
     </script>
