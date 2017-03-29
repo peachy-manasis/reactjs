@@ -6,6 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.20/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div id="app">
@@ -13,73 +14,59 @@
     </div>
 
     <script type="text/babel">
-        var LifecycleComponent = React.createClass({
-            getDefaultProps: function()
+        var LikesComponent = React.createClass({
+                updateLikes: function()
+        {
+            ReactDOM.render(
+                    <LikesComponent likes={this.props.likes + 1}/>,
+                    document.getElementById('app')
+            )
+        },
+                getDefaultProps: function()
             {
-                console.log("1: getDefaultProps");
+                return ({
+                    likes: 0
+                })
             },
             getInitialState: function()
             {
-                console.log("2: getInitialState:");
-                return({
-                    count: 0
+                return ({
+                    popular: false
                 })
             },
-            componentWillMount: function()
-            {
-                console.log("3: componentWillMount: before component is rendered, has access to props and state, but not dom");
-            },
-            increment: function()
-            {
-                this.setState({
-                    count: this.state.count + 1
-                })
-            },
-            render: function(){
-                console.log('4: render - will execute everytime refreshed.')
-                return (
-                        <button onClick={this.increment}>{this.state.count}</button>
-                )
-            },
-            componentDidMount: function()
-            {
-                console.log("5: componentDidMount: component has rendered!");
-                this.interval = setInterval(this.increment, 1000);
-            },
-            componentWillUnmount: function()
-            {
-                clearInterval(this.interval);
-                console.log('6: componentWillUnmount')
-            }
-        });
-
-        var LifecycleContainer = React.createClass({
-                mount: function()
+        componentWillReceiveProps: function(nextProps)
         {
-            ReactDOM.render(
-                    <LifecycleComponent />,
-                    document.getElementById('renderHere')
-            )
+            console.log(nextProps);
+            this.setState({
+                popular: nextProps.likes >= 10
+            })
         },
-        unmount: function()
+        shouldComponentUpdate: function(nextProps, nextState)
         {
-            ReactDOM.unmountComponentAtNode(document.getElementById('renderHere'));
+            return nextProps.likes % 2 === 0;
         },
             render: function()
             {
-                console.log("lifecyclecontainer rendered!");
+                console.log("component rendered!");
                 return (
-                        <div>
-                            <button onClick={this.mount}>Mount</button>
-                            <button onClick={this.unmount}>Unmount</button>
-                            <div id="renderHere"></div>
+                        <div className="container">
+                            <h1>
+                                {this.state.popular ? "I'm popular!" : null}
+                            </h1>
+                            <button className="btn blue-btn" onClick={this.updateLikes}>Likes: {this.props.likes}</button>
                         </div>
                 )
-            }
+            },
+        componentDidUpdate: function(prevProps, prevState)
+        {
+            console.log('Previous Props: ', prevProps);
+            console.log('Previous State :', prevState);
+            console.log(ReactDOM.findDOMNode(this));
+        },
         });
 
         ReactDOM.render(
-                <LifecycleContainer />,
+                <LikesComponent />,
                 document.getElementById('app')
         );
     </script>
