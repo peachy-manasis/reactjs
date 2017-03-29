@@ -24,12 +24,15 @@
                 this.click = this.click.bind(this);
             }
             click(value) {
-                alert(value);
+                //alert(value);
+                console.log("clicked!");
             }
             render() {
                 console.log(this.state);
                 return (
-                        <div onClick={() => this.click(10)}>{this.props.text}</div>
+                        <div className="container">
+                            <Button className="btn blue-btn" clickHandler={this.click} text="Click me :)" />
+                        </div>
                 )
             }
         }
@@ -40,6 +43,12 @@
 
         Counter.propTypes = {
             text: React.PropTypes.string
+        }
+
+        const Button = (props) => {
+            return (
+                    <button className={props.className} onClick={props.clickHandler}>{props.text}</button>
+            )
         }
 
         ReactDOM.render(
