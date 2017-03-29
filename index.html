@@ -14,61 +14,38 @@
     </div>
 
     <script type="text/babel">
-        var LikesComponent = React.createClass({
-                updateLikes: function()
-        {
-            ReactDOM.render(
-                    <LikesComponent likes={this.props.likes + 1}/>,
-                    document.getElementById('app')
-            )
-        },
-                getDefaultProps: function()
-            {
-                return ({
-                    likes: 0
-                })
-            },
-            getInitialState: function()
-            {
-                return ({
-                    popular: false
-                })
-            },
-        componentWillReceiveProps: function(nextProps)
-        {
-            console.log(nextProps);
-            this.setState({
-                popular: nextProps.likes >= 10
-            })
-        },
-        shouldComponentUpdate: function(nextProps, nextState)
-        {
-            return nextProps.likes % 2 === 0;
-        },
-            render: function()
-            {
-                console.log("component rendered!");
+        class Counter extends React.Component{
+            constructor(props) {
+                super(props);
+                console.log(props)
+                this.state = {
+                    count: 0
+                }
+                this.click = this.click.bind(this);
+            }
+            click(value) {
+                alert(value);
+            }
+            render() {
+                console.log(this.state);
                 return (
-                        <div className="container">
-                            <h1>
-                                {this.state.popular ? "I'm popular!" : null}
-                            </h1>
-                            <button className="btn blue-btn" onClick={this.updateLikes}>Likes: {this.props.likes}</button>
-                        </div>
+                        <div onClick={() => this.click(10)}>{this.props.text}</div>
                 )
-            },
-        componentDidUpdate: function(prevProps, prevState)
-        {
-            console.log('Previous Props: ', prevProps);
-            console.log('Previous State :', prevState);
-            console.log(ReactDOM.findDOMNode(this));
-        },
-        });
+            }
+        }
+
+        Counter.defaultProps = {
+            text: 'Henlo fren!'
+        }
+
+        Counter.propTypes = {
+            text: React.PropTypes.string
+        }
 
         ReactDOM.render(
-                <LikesComponent />,
+                <Counter />,
                 document.getElementById('app')
-        );
+        )
     </script>
 </body>
 </html>
