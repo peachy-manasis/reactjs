@@ -14,55 +14,61 @@
     </div>
 
     <script type="text/babel">
-        class CounterChallenge extends React.Component{
+        let BaseCount = (BasicComponent) => class extends React.Component {
             constructor(props) {
                 super(props);
                 this.state = {
-                    count: 0
+                    count: 0,
+                    text: 'Henlo fren'
                 }
-                this.incrementCount = this.incrementCount.bind(this)
+                this.incrementCount = this.incrementCount.bind(this);
             }
-            incrementCount(value) {
+            incrementCount() {
+                console.log("button clicked");
                 this.setState({
-                    count: this.state.count + value
+                    count: this.state.count +1
                 })
             }
             render() {
                 return (
                         <div className="container">
-                                <h1>Count: {this.state.count}</h1>
-                                <Button style="btn blue-btn" text={`${this.props.text} ${this.props.valueOne}`} value={this.props.valueOne} clickHandler={() => this.incrementCount(this.props.valueOne)} />
-                                <Button style="btn green-btn" text={`${this.props.text} ${this.props.valueTwo}`} value={this.props.valueTwo} clickHandler={() => this.incrementCount(this.props.valueTwo)} />
-                                <Button style="btn purple-btn" text={`${this.props.text} ${this.props.valueThree}`} value={this.props.valueThree} clickHandler={() => this.incrementCount(this.props.valueThree)} />
+                              <BasicComponent {...this.state} increment={this.incrementCount}/>
                         </div>
                 )
             }
         }
 
-        CounterChallenge.defaultProps = {
-            valueOne: 1,
-            valueTwo: 5,
-            valueThree: 10,
-            text: 'Add'
+        const Button = (props) => {
+            console.log(props);
+            return (
+                    <button className="btn blue-btn" onClick={props.increment}>Henlo: {props.count}</button>
+            )
         }
 
-        const Button = (props) => {
+        const Label = (props) => {
             return (
-                    <button className={props.style} value={props.value} onClick={props.clickHandler}>{props.text}</button>
+                    <label onMouseMove={props.increment}>Mouse over me: {props.count}</label>
             )
-        };
+        }
 
-        Button.propTypes = {
-            text: React.PropTypes.string,
-            style: React.PropTypes.string,
-            value: React.PropTypes.number,
-            clickHandler: React.PropTypes.func.isRequired
+        let ExtendedButton = BaseCount(Button);
+        let ExtendedLabel = BaseCount(Label);
+
+        const Container = () => {
+
+                return (
+                        <div>
+                              <ExtendedButton />
+                              <ExtendedLabel />
+                        </div>
+                )
+
         }
 
         ReactDOM.render(
-                <CounterChallenge valueOne={10} valueTwo={100} valueThree={1000} />,
+                <Container />,
                 document.getElementById('app')
-        )
+        );
     </script>
 </body>
 </html>
