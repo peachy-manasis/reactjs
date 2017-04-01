@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import BabelTransformer from './components/babel-transformer';
 
-const HenloFren = () => {
-	return (
-	<div>Henlo Fren</div>
-	)
-}
+console.log(BabelTransformer);
 
 ReactDOM.render(
-	<HenloFren />,
+	<BabelTransformer />,
 	document.getElementById('app')
 );
